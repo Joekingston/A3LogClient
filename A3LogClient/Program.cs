@@ -12,33 +12,49 @@ namespace A3LogClient
     {
         static void Main(string[] args)
         {
+            Console.Write("Enter the server IP: ");
+            string serverIp = Console.ReadLine();
 
-            string serverIp = "10.0.0.60";
-            int serverPort = 30001;
-            var logObject = new
+            Console.Write("Enter the server port: ");
+            int serverPort;
+            while (!int.TryParse(Console.ReadLine(), out serverPort))
             {
-                APP = "my_app",
-                LEVEL = "info"
-            };
+                Console.WriteLine("Invalid port. Please enter a valid integer value.");
+                Console.Write("Enter the server port: ");
+            }
 
-            string logMessage = JsonConvert.SerializeObject(logObject);
-            for (int i = 0; i < 15; i++) {
-                try
+            TestCases.SetServerDetails(serverIp, serverPort);
+
+            Console.WriteLine("Choose a test case to run:");
+            Console.WriteLine("1. Manual Input");
+            Console.WriteLine("2. Test Edge Cases");
+            Console.WriteLine("3. Happy Path");
+
+            int choice;
+            while(true)
+            {
+                if (int.TryParse(Console.ReadLine(), out choice))
                 {
-                    using (TcpClient client = new TcpClient(serverIp, serverPort))
-                    using (NetworkStream stream = client.GetStream())
+                    switch (choice)
                     {
-                        byte[] data = Encoding.UTF8.GetBytes(logMessage);
-                        stream.Write(data, 0, data.Length);
-                        Console.WriteLine("Log message sent successfully.");
+                        case 1:
+                            TestCases.TestManualInput();
+                            break;
+                        case 2:
+                            TestCases.TestEdgeCases();
+                            break;
+                        case 3:
+                            TestCases.TestHappyPath();
+                            break;
+                        default:
+                            Console.WriteLine("Invalid option. Please choose a valid test case.");
+                            break;
                     }
                 }
-                catch (Exception ex)
+                else
                 {
-                    Console.WriteLine($"Error: {ex.Message}");
+                    Console.WriteLine("Invalid input. Please enter a valid option.");
                 }
-            
-            
             }
 
         }
