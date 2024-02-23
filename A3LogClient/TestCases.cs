@@ -10,6 +10,7 @@ namespace A3LogClient
 {
     internal class TestCases
     {
+        private static int ratePolling = 15;
         private static string serverIp;
         private static int serverPort;
         public static void SetServerDetails(string ip, int port)
@@ -28,6 +29,14 @@ namespace A3LogClient
             string log = Console.ReadLine();
 
             SendJsonToServer(app, level, log);
+        }
+
+        public static void TestRateLimiting()
+        {
+            for (int i = 0; i < ratePolling; i++)
+            {
+                SendJsonToServer("test", "WARNING", "Samplle log");
+            }
         }
 
         public static void TestEdgeCases()

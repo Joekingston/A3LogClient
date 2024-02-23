@@ -29,6 +29,7 @@ namespace A3LogClient
             Console.WriteLine("1. Manual Input");
             Console.WriteLine("2. Test Edge Cases");
             Console.WriteLine("3. Happy Path");
+            Console.WriteLine("4. Rate Limit");
 
             int choice;
             while(true)
@@ -45,6 +46,9 @@ namespace A3LogClient
                             break;
                         case 3:
                             TestCases.TestHappyPath();
+                            break;
+                        case 4:
+                            TestCases.TestRateLimiting();
                             break;
                         default:
                             Console.WriteLine("Invalid option. Please choose a valid test case.");
